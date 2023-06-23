@@ -2,6 +2,17 @@
 
 This program assigns secret children to each employee for a Secret Santa game. It takes a list of employees and their email IDs, along with the previous year's assignments, and generates new assignments for the current year.
 
+## Solution Overview
+
+1.  The solution uses the `fs` module and `csv-parser` library to read and parse CSV files.
+2.  The `readCsv(fileName)` function reads a CSV file and returns a promise that resolves to an array of objects, where each object represents a row in the CSV file.
+3.  The `assignSecretChildren(employees, previousAssignments)` function takes an array of employee objects and an array of previous assignment objects as input. It generates new secret Santa assignments for each employee, avoiding any conflicts with previous assignments. It returns an array of new assignment objects.
+4.  The `getRandomEmployee()` function is a helper function used by `assignSecretChildren()` to randomly select an employee for assignment, ensuring that the selected employee meets all the assignment criteria.
+5.  The `isAssignedPreviously()` and `isAssignedInCurrentYear()` functions are helper functions used to check if an employee has been assigned to the same employee previously or to another employee in the current year, respectively.
+6.  The `writeSecretSantaAssignments(assignments, fileName)` function takes an array of assignment objects and a file name as input. It generates a new CSV file with the assignments.
+7.  The `validateCsvData(data, expectedFields)` function is a helper function used to validate the CSV data and ensure that it has the expected format and fields.
+8.  The `runSecretSantaGame(employeeListFile, previousAssignmentsFile, resultFile)` function is the main function that orchestrates the Secret Santa game. It reads the employee list and previous assignment files, validates the data, generates new assignments, and writes the result to a new CSV file.
+
 ## Installation
 
 To use this program, follow these steps:
