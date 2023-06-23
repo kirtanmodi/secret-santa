@@ -116,6 +116,41 @@ function writeSecretSantaAssignments(assignments, fileName) {
   });
 }
 
+// Validate CSV file data
+function validateCsvData(data, expectedFields) {
+  // Check if data is not empty
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error(
+      "Invalid CSV data. The file is empty or not in the correct format."
+    );
+  }
+
+  // Get the first row Headers
+  const fields = Object.keys(data[0]);
+
+  // Check if the number of fields matches the expected number of fields
+  // and if all the expected fields are present in the data
+  if (
+    fields.length !== expectedFields.length ||
+    !expectedFields.every((field) => fields.includes(field))
+  ) {
+    throw new Error("Invalid CSV data. Missing or incorrect fields.");
+  }
+
+  // Iterate over each row in the data
+  for (const row of data) {
+    // Iterate over each expected field
+    for (const field of expectedFields) {
+      // Check if the field is missing or has an empty value
+      if (!row[field] || row[field].trim().length === 0) {
+        throw new Error(
+          `Invalid CSV data. Missing or empty value for field '${field}'.`
+        );
+      }
+    }
+  }
+}
+
 // main function
 async function runSecretSantaGame(
   employeeListFile,
@@ -124,8 +159,15 @@ async function runSecretSantaGame(
 ) {
   try {
     const employees = await readCsv(employeeListFile);
+    validateCsvData(employees, ["Employee_Name", "Employee_EmailID"]);
 
     const previousAssignments = await readCsv(previousAssignmentsFile);
+    validateCsvData(previousAssignments, [
+      "Employee_Name",
+      "Employee_EmailID",
+      "Secret_Child_Name",
+      "Secret_Child_EmailID",
+    ]);
 
     const assignments = assignSecretChildren(employees, previousAssignments);
 
