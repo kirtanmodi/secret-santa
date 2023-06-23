@@ -131,7 +131,7 @@ async function runSecretSantaGame(
 
     await writeSecretSantaAssignments(assignments, resultFile);
 
-    console.log("Secret Santa assignments generated successfully!");
+    // console.log("Secret Santa assignments generated successfully!");
   } catch (error) {
     console.error("Error occurred:", error);
   }
